@@ -106,24 +106,20 @@ class DataWarehouseLoader:
                 df = df.withColumn(fk_col, F.expr(rule["expr"]))
             else:
                 dim_name  = rule["dim"]
-                join_cond = rule["join"]   # Ej: "category_raw = category_name"
+                join_cond = rule["join"]   
                 left_expr, right_expr = map(str.strip, join_cond.split("="))
 
-                # Traemos la dimensión completa (para cachearla), pero en el join
-                # solo usaremos el surrogate key y la columna de join (right_expr).
+
                 df_dim_full = self._dim_cache.get(dim_name)
                 if df_dim_full is None:
                     df_dim_full = self._load_dim_from_db(dim_name)
                     self._dim_cache[dim_name] = df_dim_full
 
-                # Nombre del surrogate key en la tabla dwh, p. ej. "id_category"
+                
                 id_col = rule.get("id_col") or f"id_{dim_name.split('_', 1)[1]}"
 
-                # Creamos un pequeño DataFrame que sólo lleve (id_col, right_expr)
-                # para evitar arrastrar created_at, updated_at, deleted_at, etc.
                 df_dim_trimmed = df_dim_full.select(id_col, right_expr)
 
-                # Hacemos el join contra ese mini‐DataFrame
                 df = df.join(df_dim_trimmed,
                              df[left_expr] == df_dim_trimmed[right_expr],
                              how="left")\
