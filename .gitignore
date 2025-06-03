@@ -192,5 +192,5 @@ metadata/**/*.tmp
 !data_lake/.gitkeep
 !metadata/.gitkeep
 
-# Allow YAML configs
-*.yml
+# # Allow YAML configs
+# *.yml

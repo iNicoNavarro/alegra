@@ -1,0 +1,118 @@
+etl:
+  layer_brz: "bronze"
+  layer_slv: "silver"
+  layer_gld: "gold"
+  target_schema: "silver_prod.temp_tables"
+  steps:
+    - name: "step_01__ingest_raw"
+      enabled: true
+    - name: "step_02__transform_and_load_stg"
+      enabled: true
+    - name: "step_03__make_dwh_tables"
+      enabled: true
+
+paths:
+  base_path: "/alegra/data_lake"
+  source_path: "/alegra/data_source"        
+  metadata_path: "/alegra/metadata/innova/"
+  logs_path: "/alegra/logs/innova/"
+
+tables:
+  customers:
+    source: "customers"
+    target: "customers_stg"
+    schema: 
+      ID: "LongType"
+      Nombre: "StringType"
+      Ubicacion: "StringType"
+      Segmento: "StringType"
+
+  products:
+    source: "products"
+    target: "products_stg"
+    schema:
+      ID: "LongType"
+      Nombre: "StringType"
+      Categoria: "StringType"
+      Precio: "DecimalType(18,14)"
+
+  invoices:
+    source: "invoices"
+    target: "invoices_stg"
+    schema:
+      ID: "LongType"
+      Fecha: "DateType"
+      ClienteID: "LongType"
+      ProductoID: "LongType"
+      Cantidad: "LongType"
+      Total: "DecimalType(18,14)"
+
+
+dwh:
+  schema  : "dwh_innova"
+  sql_dir : "src/innova/sql"
+
+  dim_location:
+    source      : "customers_stg"
+    select      : { Ubicacion : city }
+    natural_keys: ["city"]
+
+  dim_segment:
+    source      : "customers_stg"
+    select      : { Segmento : segment_name }
+    natural_keys: ["segment_name"]
+
+  dim_product_category:
+    source      : "products_stg"
+    select      : { Categoria : category_name }
+    natural_keys: ["category_name"]
+
+  dim_product:
+    source: "products_stg"
+    select:
+      ID        : product_code
+      Nombre    : product_name
+      Precio    : price
+      Categoria : category_raw       
+    fk_map:
+      id_category:
+        dim   : dim_product_category
+        join  : category_raw = category_name
+        id_col: id_category          
+    natural_keys: ["product_code"]
+
+  dim_customer:
+    source: "customers_stg"
+    select:
+      ID        : customer_code
+      Nombre    : customer_name
+      Segmento  : segment_raw
+      Ubicacion : city_raw
+    fk_map:
+      id_segment:
+        dim  : dim_segment
+        join : segment_raw = segment_name
+      id_location:
+        dim  : dim_location
+        join : city_raw    = city
+    natural_keys: ["customer_code"]
+
+  fact_invoices:
+    source: "invoices_stg"
+    select:
+      ID         : invoice_id
+      ClienteID  : customer_code_raw
+      ProductoID : product_code_raw
+      Fecha      : invoice_date
+      Cantidad   : quantity
+      Total      : total_amount
+    fk_map:
+      id_customer:
+        dim  : dim_customer
+        join : customer_code_raw = customer_code
+      id_product:
+        dim  : dim_product
+        join : product_code_raw  = product_code
+      id_date:
+        expr: "CAST(date_format(invoice_date,'yyyyMMdd') AS INT)"
+    natural_keys: ["invoice_id"]
