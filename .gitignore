@@ -181,8 +181,8 @@ cython_debug/
 docs/*.pdf
 #docs/*.xlsx
 
-# Allow versioning of data_lake structure but not CSV data files
-data_lake/**/*.csv
+# # Allow versioning of data_lake structure but not CSV data files
+# data_lake/**/*.csv
 
 # Allow versioning of metadata structure but ignore large temp files
 metadata/**/*.parquet
