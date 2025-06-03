@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="logical_model" id="77D8AF34-868A-6902-12F8-A9B125933435" version="3.5">
+<createdBy>LENOVO</createdBy>
+<createdTime>2025-05-29 04:34:22 UTC</createdTime>
+<ownerDesignName>logical_model</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>77D8AF34-868A-6902-12F8-A9B125933435</designId>
+</OSDM_Design>

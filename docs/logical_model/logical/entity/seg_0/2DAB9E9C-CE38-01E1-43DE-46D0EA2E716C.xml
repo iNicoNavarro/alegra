@@ -1,0 +1,146 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="2DAB9E9C-CE38-01E1-43DE-46D0EA2E716C" name="dim_customer">
+<createdBy>LENOVO</createdBy>
+<createdTime>2025-05-29 04:41:43 UTC</createdTime>
+<ownerDesignName>logical_model</ownerDesignName>
+<engineerTo>
+<item key="FA69BF2A-2C5C-0904-FCA6-9E923E3F0DAD" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="80E1F5FD-A236-3F71-1236-D52E07563E49">
+<createdBy>LENOVO</createdBy>
+<createdTime>2025-05-29 04:42:26 UTC</createdTime>
+<ownerDesignName>logical_model</ownerDesignName>
+<engineerTo>
+<item key="FA69BF2A-2C5C-0904-FCA6-9E923E3F0DAD" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<domain>1D6D5C08-27E6-18B2-C34A-64006DBF2A12</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="name" id="1BCCBE71-A32A-7DBC-71DA-DCA8356F320A">
+<createdBy>LENOVO</createdBy>
+<createdTime>2025-05-29 04:42:34 UTC</createdTime>
+<ownerDesignName>logical_model</ownerDesignName>
+<engineerTo>
+<item key="FA69BF2A-2C5C-0904-FCA6-9E923E3F0DAD" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>D731652B-497D-2E3D-07C3-8684D194A7FA</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_location" id="D1905B38-CB51-E908-8C3E-C70A58808CCE">
+<createdBy>LENOVO</createdBy>
+<createdTime>2025-05-29 04:43:12 UTC</createdTime>
+<ownerDesignName>logical_model</ownerDesignName>
+<engineerTo>
+<item key="FA69BF2A-2C5C-0904-FCA6-9E923E3F0DAD" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<domain>1D6D5C08-27E6-18B2-C34A-64006DBF2A12</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_segment" id="163BE6B3-35E5-98A9-9AB8-CA410A835E81">
+<createdBy>LENOVO</createdBy>
+<createdTime>2025-05-29 04:43:46 UTC</createdTime>
+<ownerDesignName>logical_model</ownerDesignName>
+<engineerTo>
+<item key="FA69BF2A-2C5C-0904-FCA6-9E923E3F0DAD" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<domain>1D6D5C08-27E6-18B2-C34A-64006DBF2A12</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="created_at" id="3BB8493D-3D64-298D-E2C7-3F8C094DE96E">
+<createdBy>LENOVO</createdBy>
+<createdTime>2025-05-29 04:44:19 UTC</createdTime>
+<ownerDesignName>logical_model</ownerDesignName>
+<engineerTo>
+<item key="FA69BF2A-2C5C-0904-FCA6-9E923E3F0DAD" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6E3AD0DB-022F-20C0-A71E-EB636F4645DF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="updated_at" id="743EA79A-18EC-D35C-1D3C-47BB839AB28F">
+<createdBy>LENOVO</createdBy>
+<createdTime>2025-05-29 04:44:36 UTC</createdTime>
+<ownerDesignName>logical_model</ownerDesignName>
+<engineerTo>
+<item key="FA69BF2A-2C5C-0904-FCA6-9E923E3F0DAD" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6E3AD0DB-022F-20C0-A71E-EB636F4645DF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="deleted_at" id="D81071D4-1694-51E4-1266-A3F9D02E3986">
+<createdBy>LENOVO</createdBy>
+<createdTime>2025-05-29 04:44:48 UTC</createdTime>
+<ownerDesignName>logical_model</ownerDesignName>
+<engineerTo>
+<item key="FA69BF2A-2C5C-0904-FCA6-9E923E3F0DAD" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<domain>6E3AD0DB-022F-20C0-A71E-EB636F4645DF</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id1" id="8FE66ABC-2448-6162-EA57-8CDBB2987BE2">
+<createdBy>LENOVO</createdBy>
+<createdTime>2025-05-29 04:56:17 UTC</createdTime>
+<generatorID>0181359F-9E5C-E589-F516-27AC83697576</generatorID>
+<ownerDesignName>logical_model</ownerDesignName>
+<engineerTo>
+<item key="FA69BF2A-2C5C-0904-FCA6-9E923E3F0DAD" value="true"/>
+</engineerTo>
+<referedAttribute>2FA78B97-7EA5-62B2-B662-CD2EBCEC761D</referedAttribute>
+<use>0</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<domain>1D6D5C08-27E6-18B2-C34A-64006DBF2A12</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id2" id="AEDA8761-D01E-749D-785B-454667654F87">
+<createdBy>LENOVO</createdBy>
+<createdTime>2025-05-29 04:56:31 UTC</createdTime>
+<generatorID>09020ED0-FEA6-DAA5-9B65-907270423919</generatorID>
+<ownerDesignName>logical_model</ownerDesignName>
+<engineerTo>
+<item key="FA69BF2A-2C5C-0904-FCA6-9E923E3F0DAD" value="true"/>
+</engineerTo>
+<referedAttribute>7B7A86A1-9836-9957-2844-DB88974B059F</referedAttribute>
+<use>0</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<domain>1D6D5C08-27E6-18B2-C34A-64006DBF2A12</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="35B20AA9-A97A-ACE9-5C4E-AA77ED784566" name="dim_customer PK">
+<createdBy>LENOVO</createdBy>
+<createdTime>2025-05-29 04:42:32 UTC</createdTime>
+<ownerDesignName>logical_model</ownerDesignName>
+<engineerTo>
+<item key="FA69BF2A-2C5C-0904-FCA6-9E923E3F0DAD" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>80E1F5FD-A236-3F71-1236-D52E07563E49</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

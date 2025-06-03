@@ -1,0 +1,20 @@
+{
+  "customers": {
+    "path": "/alegra/data_lake/silver/innova/temp_tables/customers_stg",
+    "load_date": "20250602112505",
+    "record_count": 100,
+    "db_table": "silver_prod.temp_tables.customers_stg"
+  },
+  "products": {
+    "path": "/alegra/data_lake/silver/innova/temp_tables/products_stg",
+    "load_date": "20250602112505",
+    "record_count": 50,
+    "db_table": "silver_prod.temp_tables.products_stg"
+  },
+  "invoices": {
+    "path": "/alegra/data_lake/silver/innova/temp_tables/invoices_stg",
+    "load_date": "20250602112505",
+    "record_count": 1000,
+    "db_table": "silver_prod.temp_tables.invoices_stg"
+  }
+}

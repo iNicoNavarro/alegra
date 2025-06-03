@@ -1,0 +1,17 @@
+{
+  "customers": {
+    "path": "/alegra/data_lake/bronze/innova/customers/load_date=20250601055858",
+    "load_date": "20250601055858",
+    "record_count": 100
+  },
+  "products": {
+    "path": "/alegra/data_lake/bronze/innova/products/load_date=20250601055858",
+    "load_date": "20250601055858",
+    "record_count": 50
+  },
+  "invoices": {
+    "path": "/alegra/data_lake/bronze/innova/invoices/load_date=20250601055858",
+    "load_date": "20250601055858",
+    "record_count": 1000
+  }
+}
