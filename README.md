@@ -1,4 +1,5 @@
 ## Solución Propuesta
+
 Este repositorio presenta una solución completa al desafío técnico de un Ingeniero de Datos, ambientado en un entorno de simulación profesional. La arquitectura implementada emula un ecosistema productivo compuesto por un Data Warehouse modelado en esquema **copo de nieve**, y un pipeline ETL modular construido en **PySpark**, ejecutado dentro de un entorno **Dockerizado**.
 
 ### Contexto del entorno Alegra
@@ -63,3 +64,88 @@ Este enfoque promueve una separación clara entre los niveles de calidad de dato
     `cd sql_server docker-compose up -d`
 12. Levantar los notebooks para desarrollo:
     `jupyter lab  # o usar VSCode con extensión de Jupyter`
+
+## Modelo de Datos Propuesto
+
+El modelo implementado sigue una estructura copo de nieve (snowflake), adecuada para entornos donde se requiere normalización de las dimensiones, permitiendo mantener los datos limpios, estructurados y fácilmente escalables.
+
+El modelo está centrado en la tabla de hechos fact_invoices, que captura la granularidad de cada línea de factura (producto vendido por cliente en una fecha específica), y se relaciona con varias tablas de dimensión: cliente, producto, tiempo y sus respectivas jerarquías normalizadas.
+
+### Diagrama del Modelo
+
+![1748898058963](image/README/1748898058963.png)
+
+#### Tabla de Hechos
+
+fact_invoices
+Columna	Tipo	Descripción
+id	INT	Identificador de la transacción (PK)
+id_customer	INT	Cliente que realizó la compra (FK)
+id_product	INT	Producto vendido (FK)
+id_date	INT	Fecha de la factura (FK a dim_time)
+quantity	INT	Número de unidades vendidas
+total_amount	FLOAT	Valor total de la transacción
+created_at	DATETIME	Fecha de creación del registro
+updated_at	DATETIME	Última actualización
+deleted_at	DATETIME	Eliminación lógica (si aplica)
+
+#### Tablas de Dimensión
+
+dim_customer
+Columna	Tipo	Descripción
+id	INT	Identificador del cliente (PK)
+name	TEXT	Nombre completo
+id_location	INT	FK a dim_location
+id_segment	INT	FK a dim_segment
+created_at	DATETIME	Fecha de creación
+updated_at	DATETIME	Fecha de actualización
+deleted_at	DATETIME	Eliminación lógica
+
+dim_location
+Columna	Tipo	Descripción
+id	INT	Identificador de región/localidad
+name	TEXT	Nombre de la región
+created_at	DATETIME	Fecha de creación
+updated_at	DATETIME	Fecha de actualización
+deleted_at	DATETIME	Eliminación lógica
+
+dim_segment
+Columna	Tipo	Descripción
+id	INT	ID del segmento de cliente
+description	TEXT	Descripción del segmento
+created_at	DATETIME	Fecha de creación
+updated_at	DATETIME	Fecha de actualización
+deleted_at	DATETIME	Eliminación lógica
+
+dim_product
+Columna	Tipo	Descripción
+id	INT	Identificador del producto
+name	TEXT	Nombre del producto
+id_category	INT	FK a dim_product_category
+price	FLOAT	Precio unitario del producto
+created_at	DATETIME	Fecha de creación
+updated_at	DATETIME	Fecha de actualización
+deleted_at	DATETIME	Eliminación lógica
+
+dim_product_category
+Columna	Tipo	Descripción
+id	INT	ID de la categoría
+name	TEXT	Nombre de la categoría
+created_at	DATETIME	Fecha de creación
+updated_at	DATETIME	Fecha de actualización
+deleted_at	DATETIME	Eliminación lógica
+
+dim_time
+Columna	Tipo	Descripción
+date_id	INT	Identificador de la fecha (PK)
+full_date	DATE	Fecha completa
+day	INT	Día del mes
+month	INT	Mes numérico
+month_name	TEXT	Nombre del mes
+quarter	INT	Trimestre (1-4)
+year	INT	Año calendario
+attribute_8	TEXT	(Campo reservado para extensiones)
+
+#### Granularidad
+
+La granularidad de la tabla de hechos fact_invoices es a nivel de línea de venta por producto, cliente y fecha, permitiendo analizar patrones de consumo detallados, por segmento, por categoría y por región.

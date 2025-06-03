@@ -1,45 +1,99 @@
-import os
+import logging
+import json
+from typing import Dict, Any
 from pathlib import Path
 from pyspark.sql import SparkSession, DataFrame
-from utils.logger import logger
+from pyspark.sql.utils import AnalysisException
+
+def load_metadata(metadata_path: str) -> Dict[str, Any]:
+    path = Path(metadata_path)
+    if not path.exists():
+        raise FileNotFoundError(f"Metadata file not found: {metadata_path}")
+    with path.open("r", encoding="utf-8") as f:
+        return json.load(f)
 
 
-def execute_query(spark: SparkSession, path: str) -> DataFrame:
+def save_metadata(metadata: Dict[str, Any], metadata_path: str) -> None:
+    path = Path(metadata_path)
+    if not path.parent.exists():
+        path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as f:
+        json.dump(metadata, f, indent=2, ensure_ascii=False)
+
+
+def execute_query(
+        spark: SparkSession, 
+        path: str, 
+        logger: logging.Logger = None
+) -> DataFrame:
     try:
         with open(path, "r", encoding="utf-8") as f:
             query = f.read()
-        logger.info(f"Ejecutando query SQL desde archivo: {path}")
-        print(f"Contenido de la query:\n{query}")
+        if logger:
+            logger.info(f"Executing SQL query from file: {path}")
+            logger.debug(f"Query content:\n{query}")
         return spark.sql(query)
-    except Exception as e:
-        logger.exception("Error al ejecutar la consulta SQL.")
+    except AnalysisException as ae:
+        if logger:
+            logger.exception(f"Analysis error when executing SQL query: {ae}")
+        raise
+    except Exception:
+        if logger:
+            logger.exception("Error executing SQL query.")
         raise
 
 
-def load_parquet(spark: SparkSession, path: str) -> DataFrame:
+def load_parquet(
+        spark: SparkSession, 
+        path: str, 
+        logger: logging.Logger = None
+) -> DataFrame:
     try:
-        logger.info(f"Cargando datos desde Parquet: {path}")
-        return spark.read.parquet(path)
+        if logger:
+            logger.info(f"Loading data from Parquet: {path}")
+        df = spark.read.parquet(path)
+        return df
+    except AnalysisException as ae:
+        if logger:
+            logger.exception(f"Error reading Parquet ({path}): {ae}")
+        raise
     except Exception as e:
-        logger.exception(f"Error al cargar el archivo Parquet: {path}")
+        if logger:
+            logger.exception(f"Error loading Parquet file {path}: {e}")
         raise
 
 
-def save_parquet(data: DataFrame, path: str, mode: str = "overwrite", repartition: int = 4):
-
+def save_parquet(
+    data: DataFrame,
+    path: str,
+    mode: str = "overwrite",
+    repartition: int = 4,
+    logger: logging.Logger = None
+):
     try:
-        Path(path).mkdir(parents=True, exist_ok=True)
-        data.repartition(repartition).write.mode(mode).parquet(path)
-        logger.info(f"DataFrame guardado exitosamente en: {path}")
-    except Exception as e:
-        logger.exception(f"Error al guardar DataFrame en: {path}")
+        target_dir = Path(path)
+        target_dir.mkdir(parents=True, exist_ok=True)
+
+        data_to_write = data.repartition(repartition)
+        data_to_write.write.mode(mode).parquet(str(target_dir))
+        if logger:
+            logger.info(f"DataFrame successfully saved to: {path}")
+    except Exception:
+        if logger:
+            logger.exception(f"Error saving DataFrame to: {path}")
         raise
 
 
-def register_temp_view(df: DataFrame, name: str):
+def register_temp_view(
+    df: DataFrame, 
+    name: str, 
+    logger: logging.Logger = None
+    ):
     try:
         df.createOrReplaceTempView(name)
-        logger.info(f"Vista temporal registrada: {name}")
-    except Exception as e:
-        logger.exception(f"Error al registrar la vista temporal: {name}")
+        if logger:
+            logger.info(f"Temporary view registered: {name}")
+    except Exception:
+        if logger:
+            logger.exception(f"Error registering temporary view: {name}")
         raise

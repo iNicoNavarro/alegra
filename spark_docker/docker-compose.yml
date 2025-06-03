@@ -7,6 +7,8 @@ services:
       - "7077:7077"  # Spark master
     volumes:
       - ../data_lake:/data_lake
+    env_file:
+      - ../.env
 
   spark-worker:
     build: ./worker
@@ -17,6 +19,8 @@ services:
       - "8081:8081"  # Spark worker UI
     environment:
       - SPARK_MASTER=spark://spark-master:7077
+    env_file:
+      - ../.env
 
   jupyter:
     build:
@@ -26,20 +30,26 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - ../src:/home/jovyan/work
-      - ../data_lake:/data_lake
-      - ../data_source:/data_source
-      - ../utils:/alegra/utils
-      - ../puntos_scripts:/alegra/puntos_scripts
-      - ../docs:/alegra/docs
-      - ../.env:/home/jovyan/.env
+      # - ../src:/home/jovyan/work
+      # - ../data_lake:/data_lake
+      # - ../data_source:/data_source
+      # - ../utils:/alegra/utils
+      # - ../puntos_scripts:/alegra/puntos_scripts
+      # - ../docs:/alegra/docs
+      # - ../.env:/home/jovyan/.env
+      - ..:/alegra
+    working_dir: /alegra
     depends_on:
       - spark-master
+    env_file:
+      - ../.env
     environment:
       - JUPYTER_ENABLE_LAB=yes
       - PYSPARK_PYTHON=python3
       - SPARK_HOME=/usr/local/spark
       - SPARK_URL=spark://spark-master:7077
+      - PYTHONPATH=/alegra/src:/alegra/utils
+
 
   sql_server:
     image: mcr.microsoft.com/mssql/server:2019-latest

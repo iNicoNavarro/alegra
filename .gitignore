@@ -176,3 +176,21 @@ cython_debug/
 #docs 
 *.pdf
 #*.xlsx
+
+# Ignore PDF exports and office files (optional)
+docs/*.pdf
+#docs/*.xlsx
+
+# Allow versioning of data_lake structure but not CSV data files
+data_lake/**/*.csv
+
+# Allow versioning of metadata structure but ignore large temp files
+metadata/**/*.parquet
+metadata/**/*.tmp
+
+# Always include placeholder files if folders are empty
+!data_lake/.gitkeep
+!metadata/.gitkeep
+
+# Allow YAML configs
+*.yml
